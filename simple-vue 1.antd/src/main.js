@@ -21,4 +21,7 @@ const router = createRouter({
     routes, // `routes: routes` 的缩写
   })
 
+//创建并挂载根实例
+//确保 _use_ 路由实例使
+//整个应用支持路由。
 createApp(App).use(Antd).use(router).mount('#app')

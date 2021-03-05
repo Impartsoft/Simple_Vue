@@ -31,17 +31,20 @@
 <script>
 import { UserOutlined, LockOutlined } from '@ant-design/icons-vue';
 import { defineComponent, reactive } from 'vue';
+import { useRouter } from 'vue-router'
+
 export default defineComponent({
-  name: 'Login',
 
   setup() {
     const formState = reactive({
       user: '',
       password: '',
     });
-
+    const router = useRouter()
     const handleFinish = values => {
-      console.log(values, formState);
+            console.log('66');
+       console.log(values, formState);
+       router.push('/')
     };
 
     const handleFinishFailed = errors => {
