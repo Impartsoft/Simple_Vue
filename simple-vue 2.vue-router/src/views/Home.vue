@@ -24,9 +24,7 @@
           <a-breadcrumb style="margin: 16px 0">
               <a-breadcrumb-item v-for="(item,index) of $route.matched" :key="index" style="padding:5px">
                 {{item.meta.title}}
-              <!-- <router-link :to="item.path" style="font-size:18px">{{item.meta.title}}</router-link> -->
               </a-breadcrumb-item>
-
           </a-breadcrumb>
           <div :style="{ padding: '24px', background: '#fff', minHeight: '360px' }">
               <!--路由-->
@@ -59,7 +57,6 @@ export default defineComponent({
       collapsed: ref(false),
       selectedKeys: ref(['1']),
       menuRoutes:menuRoutes,
-      matched: this.$route.matched
     };
   },
 
