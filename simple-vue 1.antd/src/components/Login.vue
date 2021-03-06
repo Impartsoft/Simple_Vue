@@ -42,7 +42,6 @@ export default defineComponent({
     });
     const router = useRouter()
     const handleFinish = values => {
-            console.log('66');
        console.log(values, formState);
        router.push('/')
     };
