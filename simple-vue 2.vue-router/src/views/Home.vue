@@ -3,19 +3,26 @@
     <a-layout-sider v-model:collapsed="collapsed" collapsible>
       <div class="logo" />
       <a-menu theme="dark" v-model:selectedKeys="selectedKeys" mode="inline">
-        <a-sub-menu  v-for="menu in menuRoutes" :key="menu.name" >
-          <template #title>
-            <span>
-              <icon-font v-bind:type="menu.meta.icon" />
-              <span >{{menu.meta.title}}</span>
-            </span>
-          </template>
-          <a-menu-item v-for="subMenu in menu.children" :key="subMenu.name"  > 
-            <router-link :to="subMenu.path" ></router-link>
-            <icon-font  v-bind:type="subMenu.meta.icon" />
-            <span> {{subMenu.meta.title}}</span>
+        <div v-for="menu in getShowMenuRoutes" :key="menu.name">
+          <a-menu-item :key="menu.name" v-if="!(menu.children&&menu.children.length>0)">
+              <router-link :to="menu.path" ></router-link>
+              <icon-font  v-bind:type="menu.meta.icon" />
+              <span> {{menu.meta.title}}</span>
           </a-menu-item>
-        </a-sub-menu>
+          <a-sub-menu  :key="menu.name"  v-if="menu.children&&menu.children.length>0">
+            <template #title>
+              <span>
+                <icon-font v-bind:type="menu.meta.icon" />
+                <span >{{menu.meta.title}}</span>
+              </span>
+            </template>
+            <a-menu-item v-for="subMenu in menu.children" :key="subMenu.name"  > 
+              <router-link :to="subMenu.path" ></router-link>
+              <icon-font  v-bind:type="subMenu.meta.icon" />
+              <span> {{subMenu.meta.title}}</span>
+            </a-menu-item>
+          </a-sub-menu>
+        </div>
       </a-menu>
     </a-layout-sider>
     <a-layout>
@@ -45,7 +52,7 @@ const IconFont = createFromIconfontCN({
   scriptUrl: '//at.alicdn.com/t/font_8d5l8fzk5b87iudi.js',
 });
 import { defineComponent, ref } from 'vue';
-import {menuRoutes} from '.././router'
+import { menuRoutes } from '.././router'
 export default defineComponent({
 
   components: {
@@ -59,7 +66,22 @@ export default defineComponent({
       menuRoutes:menuRoutes,
     };
   },
-
+  computed:{
+    getShowMenuRoutes:function(){
+     const showMenuRoutes = [];
+     (this.menuRoutes).forEach(menuRoute => {
+        const subMenuRoutes = [];
+        (menuRoute.children).forEach(subMenuRoute => {
+          if(menuRoute.redirect !== subMenuRoute.path)
+            subMenuRoutes.push(subMenuRoute);
+        });
+        
+        menuRoute.children = subMenuRoutes;
+           showMenuRoutes.push(menuRoute);
+      });
+      return showMenuRoutes;
+    }
+  },
   methods: {
   }
 });

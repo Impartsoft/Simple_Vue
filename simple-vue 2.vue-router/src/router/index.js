@@ -4,6 +4,22 @@ export const menuRoutes = [
     { 
       path: '/', 
       component: ()=> import('@/views/Home.vue'), 
+      redirect: "/home/index",
+      meta:{
+        title:"首页",
+        icon:"icon-twitter",
+      },
+      children:[
+      {
+        path: "/home/index",
+        name: 'index',
+        component: () => import('@/views/Index.vue'),
+      }
+      ] 
+    },
+    { 
+      path: '/test1', 
+      component: ()=> import('@/views/Home.vue'), 
       name: "menu1",
       meta:{
         title:"测试树1  ",
